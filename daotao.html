@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đào tạo - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item active">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>🎓 Quản lý đào tạo</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh sách khóa đào tạo</h2>
+                <button class="add-btn" onclick="openDaoTaoModal()">➕ Thêm khóa đào tạo mới</button>
+                <table id="daotaoTable">
+                    <thead>
+                        <tr>
+                            <th>Mã khóa học</th>
+                            <th>Tên khóa học</th>
+                            <th>Giảng viên</th>
+                            <th>Thời gian</th>
+                            <th>Số học viên</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="daotaoTableBody">
+                        <tr>
+                            <td>DT001</td>
+                            <td>Kỹ năng lãnh đạo</td>
+                            <td>Nguyễn Văn X</td>
+                            <td>15/10 - 20/10/2025</td>
+                            <td>20</td>
+                            <td><span class="status-badge status-ongoing">Đang diễn ra</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewDaoTao('DT001')">Chi tiết</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>DT002</td>
+                            <td>Quản lý dự án</td>
+                            <td>Trần Thị Y</td>
+                            <td>01/11 - 05/11/2025</td>
+                            <td>15</td>
+                            <td><span class="status-badge status-upcoming">Sắp diễn ra</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewDaoTao('DT002')">Chi tiết</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>DT003</td>
+                            <td>Kỹ năng giao tiếp</td>
+                            <td>Lê Văn Z</td>
+                            <td>20/09 - 25/09/2025</td>
+                            <td>25</td>
+                            <td><span class="status-badge status-completed">Đã hoàn thành</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewDaoTao('DT003')">Xem kết quả</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Đào tạo -->
+    <div id="daoTaoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="daoTaoModalTitle">Thêm khóa đào tạo mới</h2>
+                <span class="close" onclick="closeDaoTaoModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="daoTaoForm">
+                    <div class="form-group">
+                        <label for="maKhoaHoc">Mã khóa học *</label>
+                        <input type="text" id="maKhoaHoc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenKhoaHoc">Tên khóa học *</label>
+                        <input type="text" id="tenKhoaHoc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="giangVien">Giảng viên *</label>
+                        <input type="text" id="giangVien" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngayBatDau">Ngày bắt đầu *</label>
+                        <input type="date" id="ngayBatDau" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngayKetThuc">Ngày kết thúc *</label>
+                        <input type="date" id="ngayKetThuc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soHocVien">Số học viên *</label>
+                        <input type="number" id="soHocVien" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="moTaKhoaHoc">Mô tả khóa học</label>
+                        <textarea id="moTaKhoaHoc" rows="4"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeDaoTaoModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveDaoTao()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Chi tiết/Xem kết quả -->
+    <div id="daoTaoDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="daoTaoDetailTitle">Chi tiết khóa đào tạo</h2>
+                <span class="close" onclick="closeDaoTaoDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="daoTaoDetailBody">
+            </div>
+            <div class="modal-footer" id="daoTaoDetailFooter">
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/daotao.js"></script>
+
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-ongoing {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        .status-upcoming {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</body>
+</html>

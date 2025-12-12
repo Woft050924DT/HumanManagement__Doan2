@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khen thưởng - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item active">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>🏆 Quản lý khen thưởng</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh sách khen thưởng</h2>
+                <button class="add-btn" onclick="openKhenThuongModal()">➕ Thêm khen thưởng mới</button>
+                <table id="khenthuongTable">
+                    <thead>
+                        <tr>
+                            <th>Mã KT</th>
+                            <th>Nhân viên</th>
+                            <th>Loại</th>
+                            <th>Lý do</th>
+                            <th>Giá trị</th>
+                            <th>Ngày</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="khenthuongTableBody">
+                        <tr>
+                            <td>KT001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td><span class="status-badge status-reward">Khen thưởng</span></td>
+                            <td>Hoàn thành xuất sắc dự án</td>
+                            <td>5,000,000 VNĐ</td>
+                            <td>15/09/2025</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editKhenThuong('KT001')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteKhenThuong('KT001')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>KT002</td>
+                            <td>Trần Thị B</td>
+                            <td><span class="status-badge status-reward">Khen thưởng</span></td>
+                            <td>Nhân viên xuất sắc tháng</td>
+                            <td>3,000,000 VNĐ</td>
+                            <td>01/10/2025</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editKhenThuong('KT002')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteKhenThuong('KT002')">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Khen thưởng -->
+    <div id="khenThuongModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="khenThuongModalTitle">Thêm khen thưởng mới</h2>
+                <span class="close" onclick="closeKhenThuongModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="khenThuongForm">
+                    <div class="form-group">
+                        <label for="maKT">Mã khen thưởng *</label>
+                        <input type="text" id="maKT" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nhanVien">Nhân viên *</label>
+                        <input type="text" id="nhanVien" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loai">Loại *</label>
+                        <select id="loai" required>
+                            <option value="">Chọn loại</option>
+                            <option value="Khen thưởng">Khen thưởng</option>
+                            <option value="Kỷ luật">Kỷ luật</option>
+                            <option value="Ghi nhận">Ghi nhận</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lyDo">Lý do *</label>
+                        <textarea id="lyDo" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="giaTri">Giá trị (VNĐ) *</label>
+                        <input type="number" id="giaTri" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngayKT">Ngày *</label>
+                        <input type="date" id="ngayKT" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeKhenThuongModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveKhenThuong()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/khenthuong.js"></script>
+
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-reward {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-discipline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-recognition {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý tuyển dụng - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item active">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>📝 Quản lý tuyển dụng</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh sách vị trí tuyển dụng</h2>
+                <button class="add-btn" onclick="openTuyenDungModal()">➕ Thêm vị trí tuyển dụng</button>
+                <table id="tuyendungTable">
+                    <thead>
+                        <tr>
+                            <th>Mã tuyển dụng</th>
+                            <th>Vị trí</th>
+                            <th>Phòng ban</th>
+                            <th>Số lượng</th>
+                            <th>Ngày đăng</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tuyendungTableBody">
+                        <tr>
+                            <td>TD001</td>
+                            <td>Lập trình viên Java</td>
+                            <td>Kỹ thuật</td>
+                            <td>3</td>
+                            <td>01/10/2025</td>
+                            <td><span class="status-badge status-active">Đang tuyển</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editTuyenDung('TD001')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="closeTuyenDung('TD001')">Đóng</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>TD002</td>
+                            <td>Nhân viên Marketing</td>
+                            <td>Marketing</td>
+                            <td>2</td>
+                            <td>05/10/2025</td>
+                            <td><span class="status-badge status-active">Đang tuyển</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editTuyenDung('TD002')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="closeTuyenDung('TD002')">Đóng</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tuyển dụng -->
+    <div id="tuyenDungModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="tuyenDungModalTitle">Thêm vị trí tuyển dụng</h2>
+                <span class="close" onclick="closeTuyenDungModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="tuyenDungForm">
+                    <div class="form-group">
+                        <label for="maTuyenDung">Mã tuyển dụng *</label>
+                        <input type="text" id="maTuyenDung" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="viTri">Vị trí tuyển dụng *</label>
+                        <input type="text" id="viTri" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phongBan">Phòng ban *</label>
+                        <select id="phongBan" required>
+                            <option value="">Chọn phòng ban</option>
+                            <option value="Kỹ thuật">Kỹ thuật</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Kinh doanh">Kinh doanh</option>
+                            <option value="Nhân sự">Nhân sự</option>
+                            <option value="Tài chính">Tài chính</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="soLuong">Số lượng cần tuyển *</label>
+                        <input type="number" id="soLuong" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="moTa">Mô tả công việc</label>
+                        <textarea id="moTa" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="yeuCau">Yêu cầu</label>
+                        <textarea id="yeuCau" rows="4"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngayDang">Ngày đăng *</label>
+                        <input type="date" id="ngayDang" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeTuyenDungModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveTuyenDung()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        let tuyenDungData = [
+            { ma: 'TD001', viTri: 'Lập trình viên Java', phongBan: 'Kỹ thuật', soLuong: 3, ngayDang: '2025-10-01', moTa: '', yeuCau: '', trangThai: 'active' },
+            { ma: 'TD002', viTri: 'Nhân viên Marketing', phongBan: 'Marketing', soLuong: 2, ngayDang: '2025-10-05', moTa: '', yeuCau: '', trangThai: 'active' }
+        ];
+        let editingTuyenDungId = null;
+
+        function openTuyenDungModal(id = null) {
+            editingTuyenDungId = id;
+            const modal = document.getElementById('tuyenDungModal');
+            const form = document.getElementById('tuyenDungForm');
+            const title = document.getElementById('tuyenDungModalTitle');
+            
+            if (id) {
+                title.textContent = 'Sửa vị trí tuyển dụng';
+                const td = tuyenDungData.find(t => t.ma === id);
+                if (td) {
+                    document.getElementById('maTuyenDung').value = td.ma;
+                    document.getElementById('viTri').value = td.viTri;
+                    document.getElementById('phongBan').value = td.phongBan;
+                    document.getElementById('soLuong').value = td.soLuong;
+                    document.getElementById('ngayDang').value = td.ngayDang;
+                    document.getElementById('moTa').value = td.moTa || '';
+                    document.getElementById('yeuCau').value = td.yeuCau || '';
+                    document.getElementById('maTuyenDung').disabled = true;
+                }
+            } else {
+                title.textContent = 'Thêm vị trí tuyển dụng';
+                form.reset();
+                document.getElementById('maTuyenDung').disabled = false;
+                document.getElementById('ngayDang').value = new Date().toISOString().split('T')[0];
+            }
+            modal.classList.add('show');
+        }
+
+        function closeTuyenDungModal() {
+            document.getElementById('tuyenDungModal').classList.remove('show');
+            document.getElementById('tuyenDungForm').reset();
+            editingTuyenDungId = null;
+        }
+
+        function saveTuyenDung() {
+            const ma = document.getElementById('maTuyenDung').value;
+            const viTri = document.getElementById('viTri').value;
+            const phongBan = document.getElementById('phongBan').value;
+            const soLuong = parseInt(document.getElementById('soLuong').value);
+            const ngayDang = document.getElementById('ngayDang').value;
+            const moTa = document.getElementById('moTa').value;
+            const yeuCau = document.getElementById('yeuCau').value;
+
+            if (!ma || !viTri || !phongBan || !soLuong || !ngayDang) {
+                showToast('Vui lòng điền đầy đủ thông tin!', 'error');
+                return;
+            }
+
+            const tuyenDungItem = { ma, viTri, phongBan, soLuong, ngayDang, moTa, yeuCau, trangThai: 'active' };
+
+            if (editingTuyenDungId) {
+                const index = tuyenDungData.findIndex(t => t.ma === editingTuyenDungId);
+                if (index !== -1) {
+                    tuyenDungItem.trangThai = tuyenDungData[index].trangThai; // Giữ nguyên trạng thái
+                    tuyenDungData[index] = tuyenDungItem;
+                    showToast('Cập nhật vị trí tuyển dụng thành công!');
+                }
+            } else {
+                if (tuyenDungData.find(t => t.ma === ma)) {
+                    showToast('Mã tuyển dụng đã tồn tại!', 'error');
+                    return;
+                }
+                tuyenDungData.push(tuyenDungItem);
+                showToast('Thêm vị trí tuyển dụng thành công!');
+            }
+
+            renderTuyenDungTable();
+            closeTuyenDungModal();
+        }
+
+        function editTuyenDung(ma) {
+            openTuyenDungModal(ma);
+        }
+
+        function closeTuyenDung(ma) {
+            if (confirm('Bạn có chắc chắn muốn đóng vị trí tuyển dụng này?')) {
+                const index = tuyenDungData.findIndex(t => t.ma === ma);
+                if (index !== -1) {
+                    tuyenDungData[index].trangThai = 'closed';
+                    renderTuyenDungTable();
+                    showToast('Đã đóng vị trí tuyển dụng!');
+                }
+            }
+        }
+
+        function renderTuyenDungTable() {
+            const tbody = document.getElementById('tuyendungTableBody');
+            tbody.innerHTML = tuyenDungData.map(td => {
+                const statusClass = td.trangThai === 'active' ? 'status-active' : 'status-closed';
+                const statusText = td.trangThai === 'active' ? 'Đang tuyển' : 'Đã đóng';
+                return `
+                    <tr>
+                        <td>${td.ma}</td>
+                        <td>${td.viTri}</td>
+                        <td>${td.phongBan}</td>
+                        <td>${td.soLuong}</td>
+                        <td>${formatDate(td.ngayDang)}</td>
+                        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            ${td.trangThai === 'active' ? `
+                                <button class="action-btn btn-edit" onclick="editTuyenDung('${td.ma}')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="closeTuyenDung('${td.ma}')">Đóng</button>
+                            ` : '<span style="color: #999;">Đã đóng</span>'}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('tuyenDungModal');
+            if (event.target == modal) {
+                closeTuyenDungModal();
+            }
+        }
+
+    <script src="js/tuyendung.js"></script>
+
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-closed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</body>
+</html>

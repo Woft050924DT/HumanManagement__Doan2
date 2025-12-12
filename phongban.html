@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý phòng ban - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item active">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>🏢 Quản lý phòng ban</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+        <div class="data-table">
+            <h2>Danh sách phòng ban</h2>
+            <button class="add-btn" onclick="openPhongBanModal()">➕ Thêm phòng ban mới</button>
+            <table id="phongbanTable">
+                <thead>
+                    <tr>
+                        <th>Mã phòng ban</th>
+                        <th>Tên phòng ban</th>
+                        <th>Trưởng phòng</th>
+                        <th>Số nhân viên</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="phongbanTableBody">
+                    <tr>
+                        <td>PB001</td>
+                        <td>Phòng Kỹ thuật</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>25</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editPhongBan('PB001', 'Phòng Kỹ thuật', 'Nguyễn Văn A', 25)">Sửa</button>
+                            <button class="action-btn btn-delete" onclick="deletePhongBan('PB001')">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PB002</td>
+                        <td>Phòng Nhân sự</td>
+                        <td>Trần Thị B</td>
+                        <td>10</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editPhongBan('PB002', 'Phòng Nhân sự', 'Trần Thị B', 10)">Sửa</button>
+                            <button class="action-btn btn-delete" onclick="deletePhongBan('PB002')">Xóa</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>PB003</td>
+                        <td>Phòng Kinh doanh</td>
+                        <td>Lê Văn C</td>
+                        <td>15</td>
+                        <td>
+                            <button class="action-btn btn-edit" onclick="editPhongBan('PB003', 'Phòng Kinh doanh', 'Lê Văn C', 15)">Sửa</button>
+                            <button class="action-btn btn-delete" onclick="deletePhongBan('PB003')">Xóa</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Phòng ban -->
+    <div id="phongBanModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="phongBanModalTitle">Thêm phòng ban mới</h2>
+                <span class="close" onclick="closePhongBanModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="phongBanForm">
+                    <div class="form-group">
+                        <label for="maPhongBan">Mã phòng ban *</label>
+                        <input type="text" id="maPhongBan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tenPhongBan">Tên phòng ban *</label>
+                        <input type="text" id="tenPhongBan" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="truongPhong">Trưởng phòng *</label>
+                        <input type="text" id="truongPhong" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soNhanVien">Số nhân viên</label>
+                        <input type="number" id="soNhanVien" min="0" value="0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closePhongBanModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="savePhongBan()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/phongban.js"></script>
+</body>
+</html>
+

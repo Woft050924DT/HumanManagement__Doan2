@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý lương - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item active">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>💰 Quản lý lương</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 id="luongTitle">Bảng lương tháng 10/2025</h2>
+                    <div>
+                        <input type="month" id="selectMonth" value="2025-10" style="padding: 8px; border: 2px solid #e1e1e1; border-radius: 6px; margin-right: 10px;" onchange="changeMonth()">
+                        <button class="add-btn" onclick="openLuongModal()">➕ Thêm bảng lương</button>
+                    </div>
+                </div>
+                <table id="luongTable">
+                    <thead>
+                        <tr>
+                            <th>Mã NV</th>
+                            <th>Họ tên</th>
+                            <th>Lương cơ bản</th>
+                            <th>Phụ cấp</th>
+                            <th>Thưởng</th>
+                            <th>Khấu trừ</th>
+                            <th>Thực nhận</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="luongTableBody">
+                        <tr>
+                            <td>NV001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>15,000,000</td>
+                            <td>2,000,000</td>
+                            <td>3,000,000</td>
+                            <td>1,500,000</td>
+                            <td>18,500,000</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editLuong('NV001')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteLuong('NV001')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV002</td>
+                            <td>Trần Thị B</td>
+                            <td>10,000,000</td>
+                            <td>1,500,000</td>
+                            <td>1,000,000</td>
+                            <td>1,000,000</td>
+                            <td>11,500,000</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editLuong('NV002')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteLuong('NV002')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV003</td>
+                            <td>Lê Văn C</td>
+                            <td>25,000,000</td>
+                            <td>3,000,000</td>
+                            <td>5,000,000</td>
+                            <td>2,500,000</td>
+                            <td>30,500,000</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editLuong('NV003')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteLuong('NV003')">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: bold; background: #f8f9fa;">
+                            <td colspan="2">Tổng cộng</td>
+                            <td id="totalLuongCoBan">0</td>
+                            <td id="totalPhuCap">0</td>
+                            <td id="totalThuong">0</td>
+                            <td id="totalKhauTru">0</td>
+                            <td id="totalThucNhan">0</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lương -->
+    <div id="luongModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="luongModalTitle">Thêm bảng lương</h2>
+                <span class="close" onclick="closeLuongModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="luongForm">
+                    <div class="form-group">
+                        <label for="maNV">Mã nhân viên *</label>
+                        <input type="text" id="maNV" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoTen">Họ tên *</label>
+                        <input type="text" id="hoTen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="luongCoBan">Lương cơ bản (VNĐ) *</label>
+                        <input type="number" id="luongCoBan" min="0" required oninput="calculateThucNhan()">
+                    </div>
+                    <div class="form-group">
+                        <label for="phuCap">Phụ cấp (VNĐ)</label>
+                        <input type="number" id="phuCap" min="0" value="0" oninput="calculateThucNhan()">
+                    </div>
+                    <div class="form-group">
+                        <label for="thuong">Thưởng (VNĐ)</label>
+                        <input type="number" id="thuong" min="0" value="0" oninput="calculateThucNhan()">
+                    </div>
+                    <div class="form-group">
+                        <label for="khauTru">Khấu trừ (VNĐ)</label>
+                        <input type="number" id="khauTru" min="0" value="0" oninput="calculateThucNhan()">
+                    </div>
+                    <div class="form-group">
+                        <label>Thực nhận (VNĐ)</label>
+                        <input type="text" id="thucNhan" readonly style="background: #f5f5f5; font-weight: bold; color: #667eea;">
+                    </div>
+                    <div class="form-group">
+                        <label for="thangLuong">Tháng lương *</label>
+                        <input type="month" id="thangLuong" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeLuongModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveLuong()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/luong.js"></script>
+</body>
+</html>

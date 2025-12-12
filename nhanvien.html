@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhân viên - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item active">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>👥 Quản lý nhân viên</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh sách nhân viên</h2>
+                <button class="add-btn" onclick="openNhanVienModal()">➕ Thêm nhân viên mới</button>
+                <table id="nhanvienTable">
+                    <thead>
+                        <tr>
+                            <th>Mã NV</th>
+                            <th>Họ tên</th>
+                            <th>Ngày sinh</th>
+                            <th>Phòng ban</th>
+                            <th>Chức vụ</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nhanvienTableBody">
+                        <tr>
+                            <td>NV001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>15/05/1990</td>
+                            <td>Kỹ thuật</td>
+                            <td>Trưởng phòng</td>
+                            <td><span class="status-badge status-active">Đang làm việc</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editNhanVien('NV001')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteNhanVien('NV001')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV002</td>
+                            <td>Trần Thị B</td>
+                            <td>20/08/1992</td>
+                            <td>Nhân sự</td>
+                            <td>Nhân viên</td>
+                            <td><span class="status-badge status-active">Đang làm việc</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editNhanVien('NV002')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteNhanVien('NV002')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV003</td>
+                            <td>Lê Văn C</td>
+                            <td>10/03/1988</td>
+                            <td>Kinh doanh</td>
+                            <td>Giám đốc</td>
+                            <td><span class="status-badge status-active">Đang làm việc</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editNhanVien('NV003')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteNhanVien('NV003')">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nhân viên -->
+    <div id="nhanVienModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 id="nhanVienModalTitle">Thêm nhân viên mới</h2>
+                <span class="close" onclick="closeNhanVienModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="nhanVienForm">
+                    <div class="form-group">
+                        <label for="maNV">Mã nhân viên *</label>
+                        <input type="text" id="maNV" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoTen">Họ tên *</label>
+                        <input type="text" id="hoTen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ngaySinh">Ngày sinh *</label>
+                        <input type="date" id="ngaySinh" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phongBan">Phòng ban *</label>
+                        <select id="phongBan" required>
+                            <option value="">Chọn phòng ban</option>
+                            <option value="Kỹ thuật">Kỹ thuật</option>
+                            <option value="Nhân sự">Nhân sự</option>
+                            <option value="Kinh doanh">Kinh doanh</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Tài chính">Tài chính</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="chucVu">Chức vụ *</label>
+                        <select id="chucVu" required>
+                            <option value="">Chọn chức vụ</option>
+                            <option value="Giám đốc">Giám đốc</option>
+                            <option value="Phó giám đốc">Phó giám đốc</option>
+                            <option value="Trưởng phòng">Trưởng phòng</option>
+                            <option value="Phó phòng">Phó phòng</option>
+                            <option value="Nhân viên">Nhân viên</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soDienThoai">Số điện thoại</label>
+                        <input type="tel" id="soDienThoai">
+                    </div>
+                    <div class="form-group">
+                        <label for="diaChi">Địa chỉ</label>
+                        <textarea id="diaChi" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="trangThai">Trạng thái *</label>
+                        <select id="trangThai" required>
+                            <option value="Đang làm việc">Đang làm việc</option>
+                            <option value="Nghỉ việc">Nghỉ việc</option>
+                            <option value="Nghỉ phép">Nghỉ phép</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeNhanVienModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveNhanVien()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/nhanvien.js"></script>
+
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</body>
+</html>

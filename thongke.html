@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê và báo cáo - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item active">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>📈 Thống kê và báo cáo</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="font-weight: 500; margin-right: 10px;">Chọn tháng:</label>
+                <input type="month" id="selectMonth" value="2025-10" style="padding: 8px; border: 2px solid #e1e1e1; border-radius: 6px; font-size: 14px;" onchange="updateStatistics()">
+            </div>
+
+            <div class="cards-grid">
+                <div class="stat-card">
+                    <h3>Tổng chi phí lương</h3>
+                    <div class="number" id="tongLuong">2.5 tỷ</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Tỷ lệ tăng trưởng nhân sự</h3>
+                    <div class="number" id="tangTruong">12%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Tỷ lệ nghỉ việc</h3>
+                    <div class="number" id="tyLeNghi">3.2%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Mức độ hài lòng</h3>
+                    <div class="number" id="haiLong">85%</div>
+                </div>
+            </div>
+
+            <!-- Biểu đồ -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 25px; margin-bottom: 25px;">
+                <div class="data-table">
+                    <h2>Biểu đồ nhân sự theo tháng</h2>
+                    <canvas id="nhanSuChart"></canvas>
+                </div>
+                <div class="data-table">
+                    <h2>Biểu đồ lương theo tháng</h2>
+                    <canvas id="luongChart"></canvas>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px; margin-bottom: 25px;">
+                <div class="data-table">
+                    <h2>Phân bổ nhân sự theo phòng ban</h2>
+                    <canvas id="phongBanChart"></canvas>
+                </div>
+                <div class="data-table">
+                    <h2>Tỷ lệ tăng trưởng và nghỉ việc</h2>
+                    <canvas id="tyLeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="data-table">
+                <h2>Báo cáo chi tiết theo tháng</h2>
+                <table id="thongkeTable">
+                    <thead>
+                        <tr>
+                            <th>Tháng</th>
+                            <th>Tổng nhân viên</th>
+                            <th>Nhân viên mới</th>
+                            <th>Nghỉ việc</th>
+                            <th>Tổng lương</th>
+                        </tr>
+                    </thead>
+                    <tbody id="thongkeTableBody">
+                        <tr>
+                            <td>10/2025</td>
+                            <td>247</td>
+                            <td>8</td>
+                            <td>3</td>
+                            <td>2,500,000,000 VNĐ</td>
+                        </tr>
+                        <tr>
+                            <td>09/2025</td>
+                            <td>242</td>
+                            <td>5</td>
+                            <td>2</td>
+                            <td>2,400,000,000 VNĐ</td>
+                        </tr>
+                        <tr>
+                            <td>08/2025</td>
+                            <td>239</td>
+                            <td>6</td>
+                            <td>4</td>
+                            <td>2,380,000,000 VNĐ</td>
+                        </tr>
+                        <tr>
+                            <td>07/2025</td>
+                            <td>237</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>2,350,000,000 VNĐ</td>
+                        </tr>
+                        <tr>
+                            <td>06/2025</td>
+                            <td>235</td>
+                            <td>3</td>
+                            <td>1</td>
+                            <td>2,320,000,000 VNĐ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/thongke.js"></script>
+
+    <style>
+        canvas {
+            max-height: 400px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            canvas {
+                max-height: 300px;
+            }
+        }
+    </style>
+</body>
+</html>

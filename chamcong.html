@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý chấm công - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item active">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>⏰ Quản lý chấm công</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 id="chamcongTitle">Bảng chấm công tháng 10/2025</h2>
+                    <div>
+                        <input type="month" id="selectMonth" value="2025-10" style="padding: 8px; border: 2px solid #e1e1e1; border-radius: 6px; margin-right: 10px;" onchange="changeMonth()">
+                        <button class="add-btn" onclick="openChamCongModal()">➕ Thêm chấm công</button>
+                    </div>
+                </div>
+                <table id="chamcongTable">
+                    <thead>
+                        <tr>
+                            <th>Mã NV</th>
+                            <th>Họ tên</th>
+                            <th>Số ngày công</th>
+                            <th>Số giờ làm</th>
+                            <th>Đi muộn</th>
+                            <th>Về sớm</th>
+                            <th>Nghỉ phép</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="chamcongTableBody">
+                        <tr>
+                            <td>NV001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>20</td>
+                            <td>160</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editChamCong('NV001')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteChamCong('NV001')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV002</td>
+                            <td>Trần Thị B</td>
+                            <td>22</td>
+                            <td>176</td>
+                            <td>2</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editChamCong('NV002')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteChamCong('NV002')">Xóa</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV003</td>
+                            <td>Lê Văn C</td>
+                            <td>21</td>
+                            <td>168</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="editChamCong('NV003')">Sửa</button>
+                                <button class="action-btn btn-delete" onclick="deleteChamCong('NV003')">Xóa</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Chấm công -->
+    <div id="chamCongModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="chamCongModalTitle">Thêm chấm công</h2>
+                <span class="close" onclick="closeChamCongModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="chamCongForm">
+                    <div class="form-group">
+                        <label for="maNV">Mã nhân viên *</label>
+                        <input type="text" id="maNV" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hoTen">Họ tên *</label>
+                        <input type="text" id="hoTen" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="thangChamCong">Tháng chấm công *</label>
+                        <input type="month" id="thangChamCong" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="soNgayCong">Số ngày công *</label>
+                        <input type="number" id="soNgayCong" min="0" max="31" required oninput="calculateGioLam()">
+                    </div>
+                    <div class="form-group">
+                        <label for="soGioLam">Số giờ làm việc</label>
+                        <input type="number" id="soGioLam" min="0" step="0.5" readonly style="background: #f5f5f5;">
+                    </div>
+                    <div class="form-group">
+                        <label for="diMuon">Số lần đi muộn</label>
+                        <input type="number" id="diMuon" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="veSom">Số lần về sớm</label>
+                        <input type="number" id="veSom" min="0" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="nghiPhep">Số ngày nghỉ phép</label>
+                        <input type="number" id="nghiPhep" min="0" value="0">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeChamCongModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveChamCong()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/chamcong.js"></script>
+</body>
+</html>

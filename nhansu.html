@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý nhân sự - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item active">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>📋 Quản lý nhân sự</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <h2>Hồ sơ nhân sự chi tiết</h2>
+                <table id="nhansuTable">
+                    <thead>
+                        <tr>
+                            <th>Mã NV</th>
+                            <th>Họ tên</th>
+                            <th>CMND/CCCD</th>
+                            <th>Trình độ</th>
+                            <th>Kinh nghiệm</th>
+                            <th>Tình trạng hôn nhân</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nhansuTableBody">
+                        <tr>
+                            <td>NV001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>001234567890</td>
+                            <td>Đại học</td>
+                            <td>5 năm</td>
+                            <td>Đã kết hôn</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewHoSo('NV001')">Xem hồ sơ</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV002</td>
+                            <td>Trần Thị B</td>
+                            <td>001234567891</td>
+                            <td>Thạc sĩ</td>
+                            <td>3 năm</td>
+                            <td>Độc thân</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewHoSo('NV002')">Xem hồ sơ</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NV003</td>
+                            <td>Lê Văn C</td>
+                            <td>001234567892</td>
+                            <td>Tiến sĩ</td>
+                            <td>10 năm</td>
+                            <td>Đã kết hôn</td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewHoSo('NV003')">Xem hồ sơ</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hồ sơ nhân sự -->
+    <div id="hoSoModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2 id="hoSoModalTitle">Hồ sơ nhân sự chi tiết</h2>
+                <span class="close" onclick="closeHoSoModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="hoSoModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeHoSoModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/nhansu.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý hợp đồng lao động - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p>Xin chào, Admin</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="timkiem.html" class="menu-item">
+                <span class="menu-icon">🔍</span>
+                <span>Tìm kiếm thông tin</span>
+            </a>
+            <a href="nhanvien.html" class="menu-item">
+                <span class="menu-icon">👥</span>
+                <span>Quản lý nhân viên</span>
+            </a>
+            <a href="tuyendung.html" class="menu-item">
+                <span class="menu-icon">📝</span>
+                <span>Quản lý tuyển dụng</span>
+            </a>
+            <a href="phongban.html" class="menu-item">
+                <span class="menu-icon">🏢</span>
+                <span>Quản lý phòng ban</span>
+            </a>
+            <a href="chamcong.html" class="menu-item">
+                <span class="menu-icon">⏰</span>
+                <span>Quản lý chấm công</span>
+            </a>
+            <a href="khenthuong.html" class="menu-item">
+                <span class="menu-icon">🏆</span>
+                <span>Quản lý khen thưởng</span>
+            </a>
+            <a href="hopdong.html" class="menu-item active">
+                <span class="menu-icon">📄</span>
+                <span>Quản lý hợp đồng lao động</span>
+            </a>
+            <a href="luong.html" class="menu-item">
+                <span class="menu-icon">💰</span>
+                <span>Quản lý lương</span>
+            </a>
+            <a href="thongke.html" class="menu-item">
+                <span class="menu-icon">📈</span>
+                <span>Thống kê và báo cáo</span>
+            </a>
+            <a href="daotao.html" class="menu-item">
+                <span class="menu-icon">🎓</span>
+                <span>Quản lý đào tạo</span>
+            </a>
+            <a href="nhansu.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Quản lý nhân sự</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>📄 Quản lý hợp đồng lao động</h1>
+                <a href="index.html"><button class="logout-btn">Quay lại</button></a>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh sách hợp đồng lao động</h2>
+                <button class="add-btn" onclick="openHopDongModal()">➕ Thêm hợp đồng mới</button>
+                <table id="hopdongTable">
+                    <thead>
+                        <tr>
+                            <th>Mã HĐ</th>
+                            <th>Nhân viên</th>
+                            <th>Loại HĐ</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="hopdongTableBody">
+                        <tr>
+                            <td>HD001</td>
+                            <td>Nguyễn Văn A</td>
+                            <td>Không thời hạn</td>
+                            <td>01/01/2020</td>
+                            <td>-</td>
+                            <td><span class="status-badge status-active">Đang hiệu lực</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="viewHopDong('HD001')">Xem</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>HD002</td>
+                            <td>Trần Thị B</td>
+                            <td>Có thời hạn 2 năm</td>
+                            <td>01/03/2023</td>
+                            <td>01/03/2025</td>
+                            <td><span class="status-badge status-warning">Sắp hết hạn</span></td>
+                            <td>
+                                <button class="action-btn btn-edit" onclick="extendHopDong('HD002')">Gia hạn</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hợp đồng -->
+    <div id="hopDongModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="hopDongModalTitle">Thêm hợp đồng mới</h2>
+                <span class="close" onclick="closeHopDongModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="hopDongForm">
+                    <div class="form-group">
+                        <label for="maHopDong">Mã hợp đồng *</label>
+                        <input type="text" id="maHopDong" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nhanVien">Nhân viên *</label>
+                        <input type="text" id="nhanVien" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loaiHopDong">Loại hợp đồng *</label>
+                        <select id="loaiHopDong" required onchange="toggleNgayKetThuc()">
+                            <option value="">Chọn loại hợp đồng</option>
+                            <option value="cothoi">Có thời hạn</option>
+                            <option value="khongthoi">Không thời hạn</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="thoiHanNam">Thời hạn (năm) - chỉ áp dụng cho hợp đồng có thời hạn</label>
+                        <input type="number" id="thoiHanNam" min="1" max="5" value="2" style="display:none;">
+                    </div>
+                    <div class="form-group">
+                        <label for="ngayBatDau">Ngày bắt đầu *</label>
+                        <input type="date" id="ngayBatDau" required>
+                    </div>
+                    <div class="form-group" id="ngayKetThucGroup" style="display:none;">
+                        <label for="ngayKetThuc">Ngày kết thúc</label>
+                        <input type="date" id="ngayKetThuc">
+                    </div>
+                    <div class="form-group">
+                        <label for="luongCoBan">Lương cơ bản (VNĐ) *</label>
+                        <input type="number" id="luongCoBan" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ghiChu">Ghi chú</label>
+                        <textarea id="ghiChu"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeHopDongModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" onclick="saveHopDong()">Lưu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Xem chi tiết/Gia hạn -->
+    <div id="hopDongDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="hopDongDetailTitle">Chi tiết hợp đồng</h2>
+                <span class="close" onclick="closeHopDongDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="hopDongDetailBody">
+            </div>
+            <div class="modal-footer" id="hopDongDetailFooter">
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/hopdong.js"></script>
+
+    <style>
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-expired {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</body>
+</html>
