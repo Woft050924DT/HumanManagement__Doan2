@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng quan - Giám đốc - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p id="userWelcome">Xin chào, Giám đốc</p>
+            </div>
+            <a href="giamdoc-tongquan.html" class="menu-item active">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="giamdoc.html" class="menu-item">
+                <span class="menu-icon">📋</span>
+                <span>Báo cáo gửi lên</span>
+            </a>
+            <a href="giamdoc-tonghop.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng hợp báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>📊 Tổng quan công ty</h1>
+                <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+            </div>
+
+            <!-- Thống kê tổng quan -->
+            <div class="cards-grid">
+                <div class="stat-card">
+                    <h3>Tổng số nhân viên</h3>
+                    <div class="number" id="tongNhanVien">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Tổng số phòng ban</h3>
+                    <div class="number" id="tongPhongBan">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Đang tuyển dụng</h3>
+                    <div class="number" id="dangTuyenDung">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Doanh số tháng</h3>
+                    <div class="number" id="doanhSo">0 tỷ</div>
+                </div>
+            </div>
+
+            <!-- Thống kê chi tiết -->
+            <div class="cards-grid" style="margin-top: 20px;">
+                <div class="stat-card">
+                    <h3>Tổng chi phí lương</h3>
+                    <div class="number" id="tongChiPhiLuong">0 tỷ</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Nhân viên mới (tháng)</h3>
+                    <div class="number" id="nhanVienMoi">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Tỷ lệ nghỉ việc</h3>
+                    <div class="number" id="tyLeNghiViec">0%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Hiệu quả tuyển dụng</h3>
+                    <div class="number" id="hieuQuaTuyenDung">0%</div>
+                </div>
+            </div>
+
+            <!-- Biểu đồ -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 25px; margin-top: 25px; margin-bottom: 25px;">
+                <div class="data-table">
+                    <h2>Phân bổ nhân sự theo phòng ban</h2>
+                    <canvas id="phongBanChart"></canvas>
+                </div>
+                <div class="data-table">
+                    <h2>Doanh số theo phòng ban</h2>
+                    <canvas id="doanhSoChart"></canvas>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 25px; margin-bottom: 25px;">
+                <div class="data-table">
+                    <h2>Xu hướng nhân sự</h2>
+                    <canvas id="nhanSuChart"></canvas>
+                </div>
+                <div class="data-table">
+                    <h2>Xu hướng doanh số</h2>
+                    <canvas id="doanhSoTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Bảng chi tiết phòng ban -->
+            <div class="data-table">
+                <h2>Chi tiết theo phòng ban</h2>
+                <table id="phongBanTable">
+                    <thead>
+                        <tr>
+                            <th>Phòng ban</th>
+                            <th>Số nhân viên</th>
+                            <th>Chi phí lương</th>
+                            <th>Doanh số</th>
+                            <th>Tỷ lệ doanh số/NV</th>
+                        </tr>
+                    </thead>
+                    <tbody id="phongBanTableBody">
+                        <!-- Dữ liệu sẽ được render tự động từ JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/giamdoc-tongquan.js"></script>
+
+    <style>
+        canvas {
+            max-height: 400px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            canvas {
+                max-height: 300px;
+            }
+        }
+    </style>
+</body>
+</html>
