@@ -285,6 +285,8 @@ function renderCharts() {
     });
 }
 
-// Initial render
-updateStatistics();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateStatistics();
+});
 renderTable();

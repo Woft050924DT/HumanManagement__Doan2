@@ -1,84 +1,95 @@
-let baoCaoData = [
-    {
-        ma: 'BC001',
-        loai: 'Báo cáo nhân sự tháng',
-        ky: 'Tháng 10/2025',
-        nguoiTao: 'Trần Thị B',
-        ngayTao: '2025-10-05',
-        noiDung: {
-            tongNhanVien: 247,
-            nhanVienMoi: 8,
-            nghiViec: 3,
-            theoPhongBan: [
-                { phongBan: 'Kỹ thuật', soLuong: 85 },
-                { phongBan: 'Marketing', soLuong: 42 },
-                { phongBan: 'Kinh doanh', soLuong: 55 },
-                { phongBan: 'Nhân sự', soLuong: 25 },
-                { phongBan: 'Tài chính', soLuong: 40 }
-            ]
-        }
-    },
-    {
-        ma: 'BC002',
-        loai: 'Báo cáo tuyển dụng',
-        ky: 'Quý 3/2025',
-        nguoiTao: 'Nguyễn Văn A',
-        ngayTao: '2025-10-01',
-        noiDung: {
-            tongViTri: 15,
-            dangTuyen: 8,
-            daDong: 7,
-            daTuyenDuoc: 12,
-            chiTiet: [
-                { viTri: 'Lập trình viên Java', soLuong: 3, daTuyen: 3 },
-                { viTri: 'Nhân viên Marketing', soLuong: 2, daTuyen: 2 },
-                { viTri: 'Chuyên viên Tài chính', soLuong: 1, daTuyen: 1 }
-            ]
-        }
-    },
-    {
-        ma: 'BC003',
-        loai: 'Báo cáo lương thưởng',
-        ky: 'Tháng 09/2025',
-        nguoiTao: 'Lê Văn C',
-        ngayTao: '2025-09-30',
-        noiDung: {
-            tongLuong: 2400000000,
-            tongThuong: 150000000,
-            tongKhauTru: 80000000,
-            thucChi: 2470000000,
-            chiTiet: [
-                { phongBan: 'Kỹ thuật', luong: 850000000, thuong: 50000000 },
-                { phongBan: 'Marketing', luong: 420000000, thuong: 30000000 },
-                { phongBan: 'Kinh doanh', luong: 550000000, thuong: 40000000 }
-            ]
-        }
-    },
-    {
-        ma: 'BC004',
-        loai: 'Báo cáo đào tạo',
-        ky: 'Quý 3/2025',
-        nguoiTao: 'Trần Thị B',
-        ngayTao: '2025-09-28',
-        noiDung: {
-            tongKhoaHoc: 8,
-            hoanThanh: 6,
-            dangDienRa: 1,
-            sapDienRa: 1,
-            tongHocVien: 145,
-            chiTiet: [
-                { khoaHoc: 'Kỹ năng lãnh đạo', hocVien: 20, hoanThanh: 20 },
-                { khoaHoc: 'Quản lý dự án', hocVien: 15, hoanThanh: 15 },
-                { khoaHoc: 'Kỹ năng giao tiếp', hocVien: 25, hoanThanh: 25 }
-            ]
-        }
+// Dữ liệu báo cáo đã gửi lên giám đốc
+// Trong thực tế, dữ liệu này sẽ được lấy từ localStorage hoặc API
+let giamDocBaoCaoData = [];
+
+// Load dữ liệu từ localStorage khi trang được tải
+function loadGiamDocBaoCaoData() {
+    const stored = localStorage.getItem('giamDocBaoCaoData');
+    if (stored) {
+        giamDocBaoCaoData = JSON.parse(stored);
     }
-];
+}
+
+// Lưu dữ liệu vào localStorage
+function saveGiamDocBaoCaoData() {
+    localStorage.setItem('giamDocBaoCaoData', JSON.stringify(giamDocBaoCaoData));
+}
+
 let currentBaoCao = null;
 
+// Render bảng báo cáo
+function renderGiamDocTable() {
+    const tbody = document.getElementById('giamdocTableBody');
+    const filterStatus = document.getElementById('filterStatus').value;
+    
+    let filteredData = giamDocBaoCaoData;
+    if (filterStatus === 'new') {
+        filteredData = giamDocBaoCaoData.filter(bc => !bc.daDoc);
+    } else if (filterStatus === 'read') {
+        filteredData = giamDocBaoCaoData.filter(bc => bc.daDoc);
+    }
+
+    // Sắp xếp: chưa đọc trước, sau đó theo ngày gửi giảm dần
+    filteredData.sort((a, b) => {
+        if (a.daDoc !== b.daDoc) {
+            return a.daDoc ? 1 : -1;
+        }
+        return new Date(b.ngayGui) - new Date(a.ngayGui);
+    });
+
+    if (filteredData.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 40px; color: #999;">
+                    <p style="font-size: 18px; margin-bottom: 10px;">📭</p>
+                    <p>Chưa có báo cáo nào được gửi lên</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = filteredData.map(bc => {
+        const statusBadge = bc.daDoc 
+            ? '<span style="padding: 4px 12px; background: #e8f5e9; color: #388e3c; border-radius: 12px; font-size: 12px; font-weight: 500;">✓ Đã đọc</span>'
+            : '<span style="padding: 4px 12px; background: #fff3e0; color: #f57c00; border-radius: 12px; font-size: 12px; font-weight: 500;">● Chưa đọc</span>';
+        
+        return `
+            <tr style="${!bc.daDoc ? 'background: #fff9e6;' : ''}">
+                <td>${statusBadge}</td>
+                <td><strong>${bc.loai}</strong></td>
+                <td>${bc.ky}</td>
+                <td>${bc.nguoiGui}</td>
+                <td>${formatDate(bc.ngayGui)}</td>
+                <td>
+                    <button class="action-btn btn-edit" onclick="viewBaoCao('${bc.ma}')">Xem</button>
+                    <button class="action-btn btn-download" onclick="downloadBaoCao('${bc.ma}')">Tải về</button>
+                </td>
+            </tr>
+        `;
+    }).join('');
+
+    updateUnreadCount();
+}
+
+// Cập nhật số lượng báo cáo chưa đọc
+function updateUnreadCount() {
+    const unreadCount = giamDocBaoCaoData.filter(bc => !bc.daDoc).length;
+    document.getElementById('unreadCount').textContent = unreadCount;
+}
+
+// Xem chi tiết báo cáo
 function viewBaoCao(ma) {
-    const bc = baoCaoData.find(b => b.ma === ma);
+    const bc = giamDocBaoCaoData.find(b => b.ma === ma);
     if (!bc) return;
+
+    // Đánh dấu đã đọc
+    if (!bc.daDoc) {
+        bc.daDoc = true;
+        bc.ngayDoc = new Date().toISOString().split('T')[0];
+        saveGiamDocBaoCaoData();
+        renderGiamDocTable();
+    }
 
     currentBaoCao = bc;
     document.getElementById('baoCaoModalTitle').textContent = bc.loai + ' - ' + bc.ky;
@@ -89,160 +100,185 @@ function viewBaoCao(ma) {
             <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px;">
                 <p><strong>Loại báo cáo:</strong> ${bc.loai}</p>
                 <p><strong>Kỳ báo cáo:</strong> ${bc.ky}</p>
-                <p><strong>Người tạo:</strong> ${bc.nguoiTao}</p>
-                <p><strong>Ngày tạo:</strong> ${formatDate(bc.ngayTao)}</p>
+                <p><strong>Người gửi:</strong> ${bc.nguoiGui}</p>
+                <p><strong>Ngày gửi:</strong> ${formatDate(bc.ngayGui)}</p>
+                ${bc.ngayDoc ? `<p><strong>Ngày đọc:</strong> ${formatDate(bc.ngayDoc)}</p>` : ''}
             </div>
     `;
 
-    if (bc.ma === 'BC001') {
+    // Hiển thị nội dung báo cáo dựa trên loại
+    if (bc.loai.includes('nhân sự') || bc.loai.includes('Nhân sự')) {
         html += `
             <h3 style="margin-bottom: 15px; color: #667eea;">Tổng quan nhân sự</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div style="padding: 15px; background: #e3f2fd; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng nhân viên</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #1976d2;">${bc.noiDung.tongNhanVien}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #1976d2;">${bc.noiDung.tongNhanVien || 0}</p>
                 </div>
                 <div style="padding: 15px; background: #e8f5e9; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Nhân viên mới</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #388e3c;">${bc.noiDung.nhanVienMoi}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #388e3c;">${bc.noiDung.nhanVienMoi || 0}</p>
                 </div>
                 <div style="padding: 15px; background: #fff3e0; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Nghỉ việc</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #f57c00;">${bc.noiDung.nghiViec}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #f57c00;">${bc.noiDung.nghiViec || 0}</p>
                 </div>
             </div>
-            <h4 style="margin-bottom: 10px;">Phân bổ theo phòng ban:</h4>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background: #f8f9fa;">
-                        <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Phòng ban</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Số lượng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${bc.noiDung.theoPhongBan.map(pb => `
-                        <tr>
-                            <td style="padding: 10px; border-bottom: 1px solid #eee;">${pb.phongBan}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${pb.soLuong}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
         `;
-    } else if (bc.ma === 'BC002') {
+        if (bc.noiDung.theoPhongBan && bc.noiDung.theoPhongBan.length > 0) {
+            html += `
+                <h4 style="margin-bottom: 10px;">Phân bổ theo phòng ban:</h4>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Phòng ban</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Số lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bc.noiDung.theoPhongBan.map(pb => `
+                            <tr>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${pb.phongBan}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${pb.soLuong}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+    } else if (bc.loai.includes('tuyển dụng') || bc.loai.includes('Tuyển dụng')) {
         html += `
             <h3 style="margin-bottom: 15px; color: #667eea;">Tổng quan tuyển dụng</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div style="padding: 15px; background: #e3f2fd; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng vị trí</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #1976d2;">${bc.noiDung.tongViTri}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #1976d2;">${bc.noiDung.tongViTri || 0}</p>
                 </div>
                 <div style="padding: 15px; background: #e8f5e9; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Đang tuyển</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #388e3c;">${bc.noiDung.dangTuyen}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #388e3c;">${bc.noiDung.dangTuyen || 0}</p>
                 </div>
                 <div style="padding: 15px; background: #fff3e0; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Đã tuyển được</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #f57c00;">${bc.noiDung.daTuyenDuoc}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #f57c00;">${bc.noiDung.daTuyenDuoc || 0}</p>
                 </div>
             </div>
-            <h4 style="margin-bottom: 10px;">Chi tiết vị trí:</h4>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background: #f8f9fa;">
-                        <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Vị trí</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Số lượng cần</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Đã tuyển</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${bc.noiDung.chiTiet.map(ct => `
-                        <tr>
-                            <td style="padding: 10px; border-bottom: 1px solid #eee;">${ct.viTri}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.soLuong}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.daTuyen}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
         `;
-    } else if (bc.ma === 'BC003') {
+        if (bc.noiDung.chiTiet && bc.noiDung.chiTiet.length > 0) {
+            html += `
+                <h4 style="margin-bottom: 10px;">Chi tiết vị trí:</h4>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Vị trí</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Số lượng cần</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Đã tuyển</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bc.noiDung.chiTiet.map(ct => `
+                            <tr>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${ct.viTri}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.soLuong}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.daTuyen}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+    } else if (bc.loai.includes('lương') || bc.loai.includes('Lương')) {
         html += `
             <h3 style="margin-bottom: 15px; color: #667eea;">Tổng quan lương thưởng</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div style="padding: 15px; background: #e3f2fd; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng lương</p>
-                    <p style="font-size: 20px; font-weight: bold; color: #1976d2;">${formatCurrency(bc.noiDung.tongLuong)}</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #1976d2;">${formatCurrency(bc.noiDung.tongLuong || 0)}</p>
                 </div>
                 <div style="padding: 15px; background: #e8f5e9; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng thưởng</p>
-                    <p style="font-size: 20px; font-weight: bold; color: #388e3c;">${formatCurrency(bc.noiDung.tongThuong)}</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #388e3c;">${formatCurrency(bc.noiDung.tongThuong || 0)}</p>
                 </div>
                 <div style="padding: 15px; background: #fff3e0; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng khấu trừ</p>
-                    <p style="font-size: 20px; font-weight: bold; color: #f57c00;">${formatCurrency(bc.noiDung.tongKhauTru)}</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #f57c00;">${formatCurrency(bc.noiDung.tongKhauTru || 0)}</p>
                 </div>
                 <div style="padding: 15px; background: #fce4ec; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Thực chi</p>
-                    <p style="font-size: 20px; font-weight: bold; color: #c2185b;">${formatCurrency(bc.noiDung.thucChi)}</p>
+                    <p style="font-size: 20px; font-weight: bold; color: #c2185b;">${formatCurrency(bc.noiDung.thucChi || 0)}</p>
                 </div>
             </div>
-            <h4 style="margin-bottom: 10px;">Chi tiết theo phòng ban:</h4>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background: #f8f9fa;">
-                        <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Phòng ban</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Lương</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Thưởng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${bc.noiDung.chiTiet.map(ct => `
-                        <tr>
-                            <td style="padding: 10px; border-bottom: 1px solid #eee;">${ct.phongBan}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${formatCurrency(ct.luong)}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${formatCurrency(ct.thuong)}</td>
-                        </tr>
-                    `).join('')}
-                </tbody>
-            </table>
         `;
-    } else if (bc.ma === 'BC004') {
+        if (bc.noiDung.chiTiet && bc.noiDung.chiTiet.length > 0) {
+            html += `
+                <h4 style="margin-bottom: 10px;">Chi tiết theo phòng ban:</h4>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Phòng ban</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Lương</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Thưởng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${bc.noiDung.chiTiet.map(ct => `
+                            <tr>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${ct.phongBan}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${formatCurrency(ct.luong)}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${formatCurrency(ct.thuong)}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+    } else if (bc.loai.includes('đào tạo') || bc.loai.includes('Đào tạo')) {
         html += `
             <h3 style="margin-bottom: 15px; color: #667eea;">Tổng quan đào tạo</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
                 <div style="padding: 15px; background: #e3f2fd; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng khóa học</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #1976d2;">${bc.noiDung.tongKhoaHoc}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #1976d2;">${bc.noiDung.tongKhoaHoc || 0}</p>
                 </div>
                 <div style="padding: 15px; background: #e8f5e9; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Hoàn thành</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #388e3c;">${bc.noiDung.hoanThanh}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #388e3c;">${bc.noiDung.hoanThanh || 0}</p>
                 </div>
                 <div style="padding: 15px; background: #fff3e0; border-radius: 6px;">
                     <p style="color: #666; margin-bottom: 5px;">Tổng học viên</p>
-                    <p style="font-size: 24px; font-weight: bold; color: #f57c00;">${bc.noiDung.tongHocVien}</p>
+                    <p style="font-size: 24px; font-weight: bold; color: #f57c00;">${bc.noiDung.tongHocVien || 0}</p>
                 </div>
             </div>
-            <h4 style="margin-bottom: 10px;">Chi tiết khóa học:</h4>
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead>
-                    <tr style="background: #f8f9fa;">
-                        <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Khóa học</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Học viên</th>
-                        <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Hoàn thành</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${bc.noiDung.chiTiet.map(ct => `
-                        <tr>
-                            <td style="padding: 10px; border-bottom: 1px solid #eee;">${ct.khoaHoc}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.hocVien}</td>
-                            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.hoanThanh}</td>
+        `;
+        if (bc.noiDung.chiTiet && bc.noiDung.chiTiet.length > 0) {
+            html += `
+                <h4 style="margin-bottom: 10px;">Chi tiết khóa học:</h4>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 10px; text-align: left; border-bottom: 2px solid #ddd;">Khóa học</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Học viên</th>
+                            <th style="padding: 10px; text-align: right; border-bottom: 2px solid #ddd;">Hoàn thành</th>
                         </tr>
-                    `).join('')}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        ${bc.noiDung.chiTiet.map(ct => `
+                            <tr>
+                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${ct.khoaHoc}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.hocVien}</td>
+                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">${ct.hoanThanh}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+    } else {
+        // Báo cáo tổng quát
+        html += `
+            <div style="padding: 20px; background: #f8f9fa; border-radius: 6px;">
+                <p style="color: #666;">Nội dung báo cáo đang được cập nhật...</p>
+            </div>
         `;
     }
 
@@ -303,13 +339,19 @@ function generatePDF(baoCao) {
     yPos += 10;
     doc.setFontSize(11);
     doc.setTextColor(100, 100, 100);
-    doc.text(`Người tạo: ${baoCao.nguoiTao}`, 20, yPos);
-    doc.text(`Ngày tạo: ${formatDate(baoCao.ngayTao)}`, 105, yPos);
+    const nguoiGui = baoCao.nguoiGui || baoCao.nguoiTao;
+    const ngayGui = baoCao.ngayGui || baoCao.ngayTao;
+    doc.text(`Người gửi: ${nguoiGui}`, 20, yPos);
+    doc.text(`Ngày gửi: ${formatDate(ngayGui)}`, 105, yPos);
+    if (baoCao.ngayDoc) {
+        yPos += 7;
+        doc.text(`Ngày đọc: ${formatDate(baoCao.ngayDoc)}`, 20, yPos);
+    }
     
     yPos += 15;
     
     // Nội dung báo cáo theo loại
-    if (baoCao.ma === 'BC001' || baoCao.loai.includes('nhân sự') || baoCao.loai.includes('Nhân sự')) {
+    if (baoCao.loai.includes('nhân sự') || baoCao.loai.includes('Nhân sự')) {
         // Báo cáo nhân sự
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
@@ -360,7 +402,7 @@ function generatePDF(baoCao) {
             });
         }
         
-    } else if (baoCao.ma === 'BC002' || baoCao.loai.includes('tuyển dụng') || baoCao.loai.includes('Tuyển dụng')) {
+    } else if (baoCao.loai.includes('tuyển dụng') || baoCao.loai.includes('Tuyển dụng')) {
         // Báo cáo tuyển dụng
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
@@ -413,7 +455,7 @@ function generatePDF(baoCao) {
             });
         }
         
-    } else if (baoCao.ma === 'BC003' || baoCao.loai.includes('lương') || baoCao.loai.includes('Lương')) {
+    } else if (baoCao.loai.includes('lương') || baoCao.loai.includes('Lương')) {
         // Báo cáo lương thưởng
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
@@ -467,7 +509,7 @@ function generatePDF(baoCao) {
             });
         }
         
-    } else if (baoCao.ma === 'BC004' || baoCao.loai.includes('đào tạo') || baoCao.loai.includes('Đào tạo')) {
+    } else if (baoCao.loai.includes('đào tạo') || baoCao.loai.includes('Đào tạo')) {
         // Báo cáo đào tạo
         doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
@@ -550,7 +592,7 @@ function formatCurrencyPDF(amount) {
 }
 
 function downloadBaoCao(ma) {
-    const bc = baoCaoData.find(b => b.ma === ma);
+    const bc = giamDocBaoCaoData.find(b => b.ma === ma);
     if (!bc) return;
 
     showToast('Đang tạo PDF...', 'info');
@@ -579,7 +621,7 @@ function formatDate(dateStr) {
 }
 
 function formatCurrency(amount) {
-    return new Intl.NumberFormat('vi-VN').format(amount);
+    return new Intl.NumberFormat('vi-VN').format(amount) + ' VNĐ';
 }
 
 function showToast(message, type = 'success') {
@@ -591,6 +633,34 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+function filterReports() {
+    renderGiamDocTable();
+}
+
+function markAllAsRead() {
+    if (giamDocBaoCaoData.length === 0) {
+        showToast('Không có báo cáo nào để đánh dấu', 'info');
+        return;
+    }
+    
+    const unreadCount = giamDocBaoCaoData.filter(bc => !bc.daDoc).length;
+    if (unreadCount === 0) {
+        showToast('Tất cả báo cáo đã được đọc', 'info');
+        return;
+    }
+
+    giamDocBaoCaoData.forEach(bc => {
+        if (!bc.daDoc) {
+            bc.daDoc = true;
+            bc.ngayDoc = new Date().toISOString().split('T')[0];
+        }
+    });
+    
+    saveGiamDocBaoCaoData();
+    renderGiamDocTable();
+    showToast(`Đã đánh dấu ${unreadCount} báo cáo là đã đọc`, 'success');
+}
+
 window.onclick = function(event) {
     const modal = document.getElementById('baoCaoModal');
     if (event.target == modal) {
@@ -598,117 +668,43 @@ window.onclick = function(event) {
     }
 }
 
-// Gửi báo cáo lên giám đốc
-function sendToDirector() {
-    if (!currentBaoCao) {
-        showToast('Vui lòng chọn báo cáo để gửi', 'error');
-        return;
-    }
-
-    // Load dữ liệu hiện có từ localStorage
-    let giamDocBaoCaoData = [];
-    const stored = localStorage.getItem('giamDocBaoCaoData');
-    if (stored) {
-        giamDocBaoCaoData = JSON.parse(stored);
-    }
-
-    // Kiểm tra xem báo cáo đã được gửi chưa
-    const alreadySent = giamDocBaoCaoData.find(bc => bc.ma === currentBaoCao.ma);
-    if (alreadySent) {
-        showToast('Báo cáo này đã được gửi lên giám đốc rồi', 'info');
-        return;
-    }
-
-    // Tạo bản sao báo cáo để gửi lên giám đốc
-    const baoCaoGuiLen = {
-        ma: currentBaoCao.ma,
-        loai: currentBaoCao.loai,
-        ky: currentBaoCao.ky,
-        nguoiGui: currentBaoCao.nguoiTao,
-        ngayGui: new Date().toISOString().split('T')[0],
-        daDoc: false,
-        noiDung: JSON.parse(JSON.stringify(currentBaoCao.noiDung)) // Deep copy
-    };
-
-    giamDocBaoCaoData.push(baoCaoGuiLen);
-    localStorage.setItem('giamDocBaoCaoData', JSON.stringify(giamDocBaoCaoData));
-
-    showToast('Đã gửi báo cáo lên giám đốc thành công!', 'success');
-    closeBaoCaoModal();
+// Hàm đăng xuất
+function logout() {
+    // Xóa thông tin user khỏi localStorage
+    localStorage.removeItem('currentUser');
+    // Chuyển về trang đăng nhập
+    window.location.href = 'index.html';
 }
 
-// Render báo cáo table
-function renderBaoCaoTable() {
-    const tbody = document.getElementById('baocaoTableBody');
-    
-    // Load dữ liệu từ localStorage để kiểm tra báo cáo đã gửi
-    let giamDocBaoCaoData = [];
-    const stored = localStorage.getItem('giamDocBaoCaoData');
-    if (stored) {
-        giamDocBaoCaoData = JSON.parse(stored);
+// Kiểm tra đăng nhập khi trang load
+function checkLogin() {
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+        // Chưa đăng nhập, chuyển về trang đăng nhập
+        window.location.href = 'index.html';
+        return false;
     }
     
-    tbody.innerHTML = baoCaoData.map(bc => {
-        const daGui = giamDocBaoCaoData.find(gbc => gbc.ma === bc.ma);
-        const statusBadge = daGui 
-            ? '<span style="padding: 2px 8px; background: #e8f5e9; color: #388e3c; border-radius: 8px; font-size: 11px; margin-right: 5px;">✓ Đã gửi</span>'
-            : '';
-        
-        return `
-        <tr>
-            <td>${statusBadge}${bc.loai}</td>
-            <td>${bc.ky}</td>
-            <td>${bc.nguoiTao}</td>
-            <td>${formatDate(bc.ngayTao)}</td>
-            <td>
-                <button class="action-btn btn-edit" onclick="viewBaoCao('${bc.ma}')">Xem</button>
-                <button class="action-btn btn-download" onclick="downloadBaoCao('${bc.ma}')">Tải về</button>
-                ${!daGui ? `<button class="action-btn btn-primary" onclick="sendBaoCaoToDirector('${bc.ma}')" style="background: #667eea; color: white;">📤 Gửi</button>` : ''}
-            </td>
-        </tr>
-    `;
-    }).join('');
-}
-
-// Gửi báo cáo trực tiếp từ bảng (không cần mở modal)
-function sendBaoCaoToDirector(ma) {
-    const bc = baoCaoData.find(b => b.ma === ma);
-    if (!bc) return;
-
-    // Load dữ liệu hiện có từ localStorage
-    let giamDocBaoCaoData = [];
-    const stored = localStorage.getItem('giamDocBaoCaoData');
-    if (stored) {
-        giamDocBaoCaoData = JSON.parse(stored);
+    const user = JSON.parse(currentUser);
+    if (user.role !== 'giamdoc') {
+        // Không phải giám đốc, chuyển về trang đăng nhập
+        window.location.href = 'index.html';
+        return false;
     }
-
-    // Kiểm tra xem báo cáo đã được gửi chưa
-    const alreadySent = giamDocBaoCaoData.find(b => b.ma === ma);
-    if (alreadySent) {
-        showToast('Báo cáo này đã được gửi lên giám đốc rồi', 'info');
-        renderBaoCaoTable();
-        return;
+    
+    // Cập nhật welcome message
+    if (document.getElementById('userWelcome')) {
+        document.getElementById('userWelcome').textContent = `Xin chào, ${user.username}`;
     }
-
-    // Tạo bản sao báo cáo để gửi lên giám đốc
-    const baoCaoGuiLen = {
-        ma: bc.ma,
-        loai: bc.loai,
-        ky: bc.ky,
-        nguoiGui: bc.nguoiTao,
-        ngayGui: new Date().toISOString().split('T')[0],
-        daDoc: false,
-        noiDung: JSON.parse(JSON.stringify(bc.noiDung)) // Deep copy
-    };
-
-    giamDocBaoCaoData.push(baoCaoGuiLen);
-    localStorage.setItem('giamDocBaoCaoData', JSON.stringify(giamDocBaoCaoData));
-
-    showToast('Đã gửi báo cáo lên giám đốc thành công!', 'success');
-    renderBaoCaoTable();
+    
+    return true;
 }
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    renderBaoCaoTable();
+    // Kiểm tra đăng nhập trước
+    if (checkLogin()) {
+        loadGiamDocBaoCaoData();
+        renderGiamDocTable();
+    }
 });

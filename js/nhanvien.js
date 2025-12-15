@@ -132,5 +132,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initial render
-renderNhanVienTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderNhanVienTable();
+});

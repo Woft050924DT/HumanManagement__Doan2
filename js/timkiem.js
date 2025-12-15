@@ -161,5 +161,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initial count
-document.getElementById('resultCount').textContent = `Tìm thấy ${employees.length} kết quả`;
+// Initialize on page load - show all employees initially
+document.addEventListener('DOMContentLoaded', function() {
+    searchEmployee();
+});

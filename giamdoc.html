@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo cáo gửi giám đốc - HRMS</title>
+    <link rel="stylesheet" href="styles/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>HRMS Dashboard</h2>
+                <p id="userWelcome">Xin chào, Giám đốc</p>
+            </div>
+            <a href="index.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Tổng quan</span>
+            </a>
+            <a href="giamdoc.html" class="menu-item active">
+                <span class="menu-icon">📋</span>
+                <span>Báo cáo gửi lên</span>
+            </a>
+            <a href="baocao.html" class="menu-item">
+                <span class="menu-icon">📊</span>
+                <span>Xem báo cáo</span>
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-header">
+                <h1>📋 Báo cáo gửi lên giám đốc</h1>
+                <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+            </div>
+
+            <div style="margin-bottom: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <label style="font-weight: 500;">Lọc theo trạng thái:</label>
+                <select id="filterStatus" style="padding: 8px 15px; border: 2px solid #e1e1e1; border-radius: 6px; font-size: 14px; cursor: pointer;" onchange="filterReports()">
+                    <option value="all">Tất cả</option>
+                    <option value="new">Chưa đọc</option>
+                    <option value="read">Đã đọc</option>
+                </select>
+                <button class="btn btn-primary" onclick="markAllAsRead()" style="margin-left: auto;">Đánh dấu tất cả đã đọc</button>
+            </div>
+
+            <div class="data-table">
+                <h2>Danh sách báo cáo đã nhận</h2>
+                <div style="margin-bottom: 15px; padding: 10px; background: #e3f2fd; border-radius: 6px; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-weight: 500;">📬 Báo cáo chưa đọc: <span id="unreadCount" style="color: #1976d2; font-weight: bold;">0</span></span>
+                </div>
+                <table id="giamdocTable">
+                    <thead>
+                        <tr>
+                            <th>Trạng thái</th>
+                            <th>Loại báo cáo</th>
+                            <th>Kỳ báo cáo</th>
+                            <th>Người gửi</th>
+                            <th>Ngày gửi</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="giamdocTableBody">
+                        <!-- Dữ liệu sẽ được render tự động từ JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Xem báo cáo -->
+    <div id="baoCaoModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2 id="baoCaoModalTitle">Chi tiết báo cáo</h2>
+                <span class="close" onclick="closeBaoCaoModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="baoCaoModalBody" style="max-height: 70vh; overflow-y: auto;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeBaoCaoModal()">Đóng</button>
+                <button type="button" class="btn btn-success" id="downloadBtn" onclick="downloadCurrentBaoCao()">Tải về PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/giamdoc.js"></script>
+</body>
+</html>

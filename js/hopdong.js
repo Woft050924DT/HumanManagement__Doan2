@@ -293,5 +293,7 @@ window.onclick = function(event) {
     });
 }
 
-// Initial render
-renderHopDongTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderHopDongTable();
+});

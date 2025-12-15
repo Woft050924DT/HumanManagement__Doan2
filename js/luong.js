@@ -179,5 +179,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initial render
-renderLuongTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderLuongTable();
+});

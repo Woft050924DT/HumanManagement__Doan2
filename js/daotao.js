@@ -207,5 +207,8 @@ window.onclick = function(event) {
 }
 
 // Initial render
-updateTrangThai();
-renderDaoTaoTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateTrangThai();
+    renderDaoTaoTable();
+});

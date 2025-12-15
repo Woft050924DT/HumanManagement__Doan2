@@ -29,9 +29,23 @@
                 </div>
             </form>
             <div style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 8px; font-size: 13px;">
-                <strong>Demo:</strong><br>
-                Username: admin<br>
-                Password: admin123
+                <strong>Demo (Click để tự động điền):</strong><br>
+                <div id="demoAdmin" style="margin-top: 10px; padding: 10px; background: white; border-radius: 6px; cursor: pointer; transition: all 0.3s; border: 2px solid transparent;" 
+                     onmouseover="this.style.borderColor='#667eea'; this.style.background='#f5f7ff';" 
+                     onmouseout="this.style.borderColor='transparent'; this.style.background='white';"
+                     onclick="fillDemoCredentials('admin')">
+                    <strong>Admin:</strong><br>
+                    Username: admin<br>
+                    Password: admin123
+                </div>
+                <div id="demoGiamDoc" style="margin-top: 10px; padding: 10px; background: white; border-radius: 6px; cursor: pointer; transition: all 0.3s; border: 2px solid transparent;" 
+                     onmouseover="this.style.borderColor='#667eea'; this.style.background='#f5f7ff';" 
+                     onmouseout="this.style.borderColor='transparent'; this.style.background='white';"
+                     onclick="fillDemoCredentials('giamdoc')">
+                    <strong>Giám đốc:</strong><br>
+                    Username: giamdoc<br>
+                    Password: giamdoc123
+                </div>
             </div>
         </div>
     </div>

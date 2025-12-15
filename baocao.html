@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xem báo cáo - HRMS</title>
     <link rel="stylesheet" href="styles/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body>
     <div class="dashboard">
@@ -86,46 +88,7 @@
                         </tr>
                     </thead>
                     <tbody id="baocaoTableBody">
-                        <tr>
-                            <td>Báo cáo nhân sự tháng</td>
-                            <td>Tháng 10/2025</td>
-                            <td>Trần Thị B</td>
-                            <td>05/10/2025</td>
-                            <td>
-                                <button class="action-btn btn-edit" onclick="viewBaoCao('BC001')">Xem</button>
-                                <button class="action-btn btn-download" onclick="downloadBaoCao('BC001')">Tải về</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Báo cáo tuyển dụng</td>
-                            <td>Quý 3/2025</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>01/10/2025</td>
-                            <td>
-                                <button class="action-btn btn-edit" onclick="viewBaoCao('BC002')">Xem</button>
-                                <button class="action-btn btn-download" onclick="downloadBaoCao('BC002')">Tải về</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Báo cáo lương thưởng</td>
-                            <td>Tháng 09/2025</td>
-                            <td>Lê Văn C</td>
-                            <td>30/09/2025</td>
-                            <td>
-                                <button class="action-btn btn-edit" onclick="viewBaoCao('BC003')">Xem</button>
-                                <button class="action-btn btn-download" onclick="downloadBaoCao('BC003')">Tải về</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Báo cáo đào tạo</td>
-                            <td>Quý 3/2025</td>
-                            <td>Trần Thị B</td>
-                            <td>28/09/2025</td>
-                            <td>
-                                <button class="action-btn btn-edit" onclick="viewBaoCao('BC004')">Xem</button>
-                                <button class="action-btn btn-download" onclick="downloadBaoCao('BC004')">Tải về</button>
-                            </td>
-                        </tr>
+                        <!-- Dữ liệu sẽ được render tự động từ JavaScript -->
                     </tbody>
                 </table>
             </div>
@@ -143,6 +106,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeBaoCaoModal()">Đóng</button>
+                <button type="button" class="btn btn-primary" id="sendToDirectorBtn" onclick="sendToDirector()">📤 Gửi lên giám đốc</button>
                 <button type="button" class="btn btn-success" id="downloadBtn" onclick="downloadCurrentBaoCao()">Tải về PDF</button>
             </div>
         </div>

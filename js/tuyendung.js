@@ -135,5 +135,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initial render
-renderTuyenDungTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderTuyenDungTable();
+});

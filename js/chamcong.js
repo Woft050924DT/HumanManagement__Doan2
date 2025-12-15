@@ -150,5 +150,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initial render
-renderChamCongTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderChamCongTable();
+});

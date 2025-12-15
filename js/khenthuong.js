@@ -130,5 +130,7 @@ window.onclick = function(event) {
     }
 }
 
-// Initial render
-renderKhenThuongTable();
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderKhenThuongTable();
+});

@@ -110,3 +110,8 @@ window.onclick = function(event) {
         closePhongBanModal();
     }
 }
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    renderPhongBanTable();
+});
