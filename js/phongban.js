@@ -1,9 +1,4 @@
-// Data storage (in real app, this would be API calls)
-let phongBanData = [
-    { ma: 'PB001', ten: 'Phòng Kỹ thuật', truongPhong: 'Nguyễn Văn A', soNV: 25 },
-    { ma: 'PB002', ten: 'Phòng Nhân sự', truongPhong: 'Trần Thị B', soNV: 10 },
-    { ma: 'PB003', ten: 'Phòng Kinh doanh', truongPhong: 'Lê Văn C', soNV: 15 }
-];
+// Data storage - đã được định nghĩa trong data/mockData.js
 let editingPhongBanId = null;
 
 function openPhongBanModal(id = null) {

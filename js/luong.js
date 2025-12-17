@@ -1,8 +1,4 @@
-let luongData = [
-    { maNV: 'NV001', hoTen: 'Nguyễn Văn A', luongCoBan: 15000000, phuCap: 2000000, thuong: 3000000, khauTru: 1500000, thucNhan: 18500000, thang: '2025-10' },
-    { maNV: 'NV002', hoTen: 'Trần Thị B', luongCoBan: 10000000, phuCap: 1500000, thuong: 1000000, khauTru: 1000000, thucNhan: 11500000, thang: '2025-10' },
-    { maNV: 'NV003', hoTen: 'Lê Văn C', luongCoBan: 25000000, phuCap: 3000000, thuong: 5000000, khauTru: 2500000, thucNhan: 30500000, thang: '2025-10' }
-];
+// Dữ liệu lương - đã được định nghĩa trong data/mockData.js
 let currentMonth = '2025-10';
 let editingLuongId = null;
 

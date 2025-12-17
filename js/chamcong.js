@@ -1,8 +1,4 @@
-let chamCongData = [
-    { maNV: 'NV001', hoTen: 'Nguyễn Văn A', thang: '2025-10', soNgayCong: 20, soGioLam: 160, diMuon: 0, veSom: 1, nghiPhep: 2 },
-    { maNV: 'NV002', hoTen: 'Trần Thị B', thang: '2025-10', soNgayCong: 22, soGioLam: 176, diMuon: 2, veSom: 0, nghiPhep: 0 },
-    { maNV: 'NV003', hoTen: 'Lê Văn C', thang: '2025-10', soNgayCong: 21, soGioLam: 168, diMuon: 1, veSom: 1, nghiPhep: 1 }
-];
+// Dữ liệu chấm công - đã được định nghĩa trong data/mockData.js
 let currentMonth = '2025-10';
 let editingChamCongId = null;
 

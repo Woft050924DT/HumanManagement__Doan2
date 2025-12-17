@@ -139,6 +139,38 @@
         </div>
     </div>
 
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header" onclick="toggleChat()">
+            <span>💬 Hỗ trợ tra cứu thông tin</span>
+            <span class="chat-toggle-icon" id="chatToggleIcon">▼</span>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message bot-message">
+                    <div class="message-content">
+                        <p>Xin chào! Tôi có thể giúp bạn tra cứu thông tin từ hệ thống. Bạn có thể hỏi về:</p>
+                        <p style="margin-top: 8px;"><strong>👤 Nhân viên:</strong> "Thông tin NV001" hoặc "Thông tin của Nguyễn Văn A"</p>
+                        <p><strong>🏢 Phòng ban:</strong> "Danh sách phòng ban" hoặc "Phòng ban Kỹ thuật"</p>
+                        <p><strong>📝 Tuyển dụng:</strong> "Danh sách tuyển dụng" hoặc "Tuyển dụng TD001"</p>
+                        <p><strong>⏰ Chấm công:</strong> "Chấm công NV001"</p>
+                        <p><strong>📄 Hợp đồng:</strong> "Hợp đồng HD001"</p>
+                        <p><strong>🏆 Khen thưởng:</strong> "Khen thưởng NV001"</p>
+                        <p><strong>💰 Lương:</strong> "Lương NV001"</p>
+                        <p><strong>🎓 Đào tạo:</strong> "Đào tạo DT001"</p>
+                        <p><strong>📊 Báo cáo:</strong> "Báo cáo BC001"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chatInput" placeholder="Nhập câu hỏi của bạn..." onkeypress="handleChatKeyPress(event)">
+                <button onclick="sendChatMessage()" class="chat-send-btn">Gửi</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data/mockData.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/chat.js"></script>
 </body>
 </html>

@@ -1,44 +1,18 @@
-const employees = [
-    { 
-        code: 'NV001', 
-        name: 'Nguyễn Văn A', 
-        department: 'Kỹ thuật', 
-        position: 'Trưởng phòng', 
-        email: 'nva@company.com',
-        phone: '0912345678',
-        birthDate: '1990-05-15',
-        address: '123 Đường ABC, Quận 1, TP.HCM',
-        startDate: '2020-01-01',
-        salary: 25000000,
-        status: 'Đang làm việc'
-    },
-    { 
-        code: 'NV002', 
-        name: 'Trần Thị B', 
-        department: 'Nhân sự', 
-        position: 'Nhân viên', 
-        email: 'ttb@company.com',
-        phone: '0912345679',
-        birthDate: '1992-08-20',
-        address: '456 Đường XYZ, Quận 2, TP.HCM',
-        startDate: '2021-03-15',
-        salary: 15000000,
-        status: 'Đang làm việc'
-    },
-    { 
-        code: 'NV003', 
-        name: 'Lê Văn C', 
-        department: 'Kinh doanh', 
-        position: 'Giám đốc', 
-        email: 'lvc@company.com',
-        phone: '0912345680',
-        birthDate: '1988-03-10',
-        address: '789 Đường DEF, Quận 3, TP.HCM',
-        startDate: '2018-06-01',
-        salary: 50000000,
-        status: 'Đang làm việc'
-    }
-];
+// Dữ liệu nhân viên cho tìm kiếm - đã được định nghĩa trong data/mockData.js
+// Sử dụng employeeData và chuyển đổi format nếu cần
+const employees = employeeData.map(emp => ({
+    code: emp.ma,
+    name: emp.hoTen,
+    department: emp.phongBan,
+    position: emp.chucVu,
+    email: emp.email,
+    phone: emp.soDienThoai,
+    birthDate: emp.ngaySinh,
+    address: emp.diaChi,
+    startDate: emp.ngaySinh, // Có thể cần thêm trường này vào mockData
+    salary: emp.luong,
+    status: emp.trangThai
+}));
 
 function searchEmployee() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();

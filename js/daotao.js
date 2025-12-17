@@ -1,8 +1,4 @@
-let daoTAoData = [
-    { ma: 'DT001', ten: 'Kỹ năng lãnh đạo', giangVien: 'Nguyễn Văn X', ngayBatDau: '2025-10-15', ngayKetThuc: '2025-10-20', soHocVien: 20, moTa: '', trangThai: 'ongoing' },
-    { ma: 'DT002', ten: 'Quản lý dự án', giangVien: 'Trần Thị Y', ngayBatDau: '2025-11-01', ngayKetThuc: '2025-11-05', soHocVien: 15, moTa: '', trangThai: 'upcoming' },
-    { ma: 'DT003', ten: 'Kỹ năng giao tiếp', giangVien: 'Lê Văn Z', ngayBatDau: '2025-09-20', ngayKetThuc: '2025-09-25', soHocVien: 25, moTa: '', trangThai: 'completed' }
-];
+// Dữ liệu đào tạo - đã được định nghĩa trong data/mockData.js
 let editingDaoTaoId = null;
 
 function updateTrangThai() {

@@ -1,7 +1,4 @@
-let hopDongData = [
-    { ma: 'HD001', nhanVien: 'Nguyễn Văn A', loai: 'khongthoi', thoiHan: null, ngayBatDau: '2020-01-01', ngayKetThuc: null, luong: 15000000, ghiChu: '', trangThai: 'active' },
-    { ma: 'HD002', nhanVien: 'Trần Thị B', loai: 'cothoi', thoiHan: 2, ngayBatDau: '2023-03-01', ngayKetThuc: '2025-03-01', luong: 12000000, ghiChu: '', trangThai: 'warning' }
-];
+// Dữ liệu hợp đồng - đã được định nghĩa trong data/mockData.js
 let editingHopDongId = null;
 let modalMode = 'add'; // 'add', 'view', 'extend'
 

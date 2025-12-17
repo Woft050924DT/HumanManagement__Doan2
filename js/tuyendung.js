@@ -1,7 +1,6 @@
-let tuyenDungData = [
-    { ma: 'TD001', viTri: 'Lập trình viên Java', phongBan: 'Kỹ thuật', soLuong: 3, ngayDang: '2025-10-01', moTa: '', yeuCau: '', trangThai: 'active' },
-    { ma: 'TD002', viTri: 'Nhân viên Marketing', phongBan: 'Marketing', soLuong: 2, ngayDang: '2025-10-05', moTa: '', yeuCau: '', trangThai: 'active' }
-];
+// Dữ liệu tuyển dụng - đã được định nghĩa trong data/mockData.js
+// Không khai báo lại tuyenDungData ở đây để sử dụng từ mockData.js
+
 let editingTuyenDungId = null;
 
 function openTuyenDungModal(id = null) {
@@ -91,6 +90,13 @@ function closeTuyenDung(ma) {
 
 function renderTuyenDungTable() {
     const tbody = document.getElementById('tuyendungTableBody');
+    
+    // Kiểm tra nếu tuyenDungData không tồn tại hoặc rỗng
+    if (!tuyenDungData || tuyenDungData.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Chưa có dữ liệu tuyển dụng</td></tr>';
+        return;
+    }
+    
     tbody.innerHTML = tuyenDungData.map(td => {
         const statusClass = td.trangThai === 'active' ? 'status-active' : 'status-closed';
         const statusText = td.trangThai === 'active' ? 'Đang tuyển' : 'Đã đóng';

@@ -1,7 +1,4 @@
-let khenThuongData = [
-    { ma: 'KT001', nhanVien: 'Nguyễn Văn A', loai: 'Khen thưởng', lyDo: 'Hoàn thành xuất sắc dự án', giaTri: 5000000, ngay: '2025-09-15' },
-    { ma: 'KT002', nhanVien: 'Trần Thị B', loai: 'Khen thưởng', lyDo: 'Nhân viên xuất sắc tháng', giaTri: 3000000, ngay: '2025-10-01' }
-];
+// Dữ liệu khen thưởng - đã được định nghĩa trong data/mockData.js
 let editingKhenThuongId = null;
 
 function openKhenThuongModal(id = null) {

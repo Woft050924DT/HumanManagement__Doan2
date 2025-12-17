@@ -1,16 +1,4 @@
-// Demo credentials
-const validCredentials = {
-    admin: {
-        username: 'admin',
-        password: 'admin123',
-        role: 'admin'
-    },
-    giamdoc: {
-        username: 'giamdoc',
-        password: 'giamdoc123',
-        role: 'giamdoc'
-    }
-};
+// Demo credentials - đã được định nghĩa trong data/mockData.js
 
 // Login form handler
 document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -34,6 +22,12 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
         document.getElementById('dashboardPage').classList.add('active');
         // Update welcome message
         document.getElementById('userWelcome').textContent = `Xin chào, ${username}`;
+        // Show chat widget
+        const chatWidget = document.getElementById('chatWidget');
+        if (chatWidget) {
+            chatWidget.style.display = 'flex';
+            chatWidget.classList.remove('collapsed');
+        }
     } 
     // Kiểm tra đăng nhập giám đốc
     else if (username === validCredentials.giamdoc.username && password === validCredentials.giamdoc.password) {
@@ -62,6 +56,11 @@ function logout() {
     document.getElementById('loginPage').classList.remove('hidden');
     document.getElementById('dashboardPage').classList.remove('active');
     document.getElementById('loginForm').reset();
+    // Hide chat widget
+    const chatWidget = document.getElementById('chatWidget');
+    if (chatWidget) {
+        chatWidget.style.display = 'none';
+    }
 }
 
 // Hàm tự động điền thông tin đăng nhập từ demo
@@ -102,6 +101,12 @@ window.addEventListener('DOMContentLoaded', function() {
             document.getElementById('loginPage').classList.add('hidden');
             document.getElementById('dashboardPage').classList.add('active');
             document.getElementById('userWelcome').textContent = `Xin chào, ${user.username}`;
+            // Show chat widget
+            const chatWidget = document.getElementById('chatWidget');
+            if (chatWidget) {
+                chatWidget.style.display = 'flex';
+                chatWidget.classList.remove('collapsed');
+            }
         }
     }
 });
