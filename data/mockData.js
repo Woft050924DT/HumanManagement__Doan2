@@ -22,6 +22,7 @@ var nhanVienData = [
     { ma: 'NV001', hoTen: 'Nguyễn Văn A', ngaySinh: '1990-05-15', phongBan: 'Kỹ thuật', chucVu: 'Trưởng phòng', email: 'nva@company.com', soDienThoai: '0912345678', diaChi: '123 Đường ABC', trangThai: 'Đang làm việc' },
     { ma: 'NV002', hoTen: 'Trần Thị B', ngaySinh: '1992-08-20', phongBan: 'Nhân sự', chucVu: 'Nhân viên', email: 'ttb@company.com', soDienThoai: '0912345679', diaChi: '456 Đường XYZ', trangThai: 'Đang làm việc' },
     { ma: 'NV003', hoTen: 'Lê Văn C', ngaySinh: '1988-03-10', phongBan: 'Kinh doanh', chucVu: 'Giám đốc', email: 'lvc@company.com', soDienThoai: '0912345680', diaChi: '789 Đường DEF', trangThai: 'Đang làm việc' }
+    
 ];
 
 // 3. HỒ SƠ NHÂN SỰ (dùng cho nhansu.js)

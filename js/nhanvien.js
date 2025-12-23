@@ -132,3 +132,25 @@ window.onclick = function(event) {
 document.addEventListener('DOMContentLoaded', function() {
     renderNhanVienTable();
 });
+
+// Enforce numeric-only and max 10 digits for phone input
+document.addEventListener('DOMContentLoaded', function() {
+    const phoneInput = document.getElementById('soDienThoai');
+    if (phoneInput) {
+        phoneInput.setAttribute('maxlength', '10');
+        phoneInput.setAttribute('inputmode', 'numeric');
+
+        phoneInput.addEventListener('input', function () {
+            let val = this.value.replace(/\D/g, '');
+            if (val.length > 10) val = val.slice(0, 10);
+            if (this.value !== val) this.value = val;
+        });
+
+        phoneInput.addEventListener('keypress', function (e) {
+            const char = String.fromCharCode(e.which || e.keyCode);
+            if (!/[0-9]/.test(char)) {
+                e.preventDefault();
+            }
+        });
+    }
+});

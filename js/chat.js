@@ -1,5 +1,4 @@
-// Chat sử dụng dữ liệu trực tiếp từ data/mockData.js
-// Có thể truy vấn: nhân viên, phòng ban, tuyển dụng, chấm công, hợp đồng, khen thưởng, lương, đào tạo, báo cáo
+
 
 let chatOpen = true;
 
@@ -43,14 +42,12 @@ function addMessage(content, type) {
     messageDiv.className = `chat-message ${type}-message`;
     
     if (type === 'bot' && content.includes('employee-info-card')) {
-        // Nếu là thông tin nhân viên (HTML)
         messageDiv.innerHTML = `
             <div class="message-content">
                 ${content}
             </div>
         `;
     } else {
-        // Tin nhắn text thông thường
         messageDiv.innerHTML = `
             <div class="message-content">
                 <p>${content}</p>
